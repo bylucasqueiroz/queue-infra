@@ -1,4 +1,8 @@
-This project is part of another repository called `queue-server`.
+# Queue K8S
+
+This project is part of another repository called [Queue Server](https://github.com/bylucasqueiroz/queue-server "Documentação do Projeto").
+
+![alt text](docs/infra.png "Infra")
 
 ## Setup
 
@@ -10,16 +14,7 @@ docker build -f cmd/server/Dockerfile -t server:latest .
 docker build -f cmd/client/Dockerfile -t client:latest .
 ```
 
-Now you can apply the manifests
-
-``` bash
-kubectl apply -f k8s/server/deployment.yaml
-kubectl apply -f k8s/server/service.yaml
-kubectl apply -f k8s/client/deployment.yaml
-kubectl apply -f k8s/client/service.yaml
-```
-
-Run:
+Now you can apply the manifests, run:
 
 ``` bash
 bash scripts/deploy.sh
@@ -31,3 +26,16 @@ Access Minikube:
 minikube service server
 minikube service client
 ```
+
+## Database
+
+kubectl exec -it postgres-665b7554dc-cddgq -- psql -h localhost -U ps_user --password -p 5432 ps_db
+
+Password:
+psql (14.10 (Debian 14.10-1.pgdg120+1))
+Type "help" for help.
+ps_db=#
+
+ps_db=# \conninfo
+
+You are connected to database "ps_db" as user "ps_user" on host "localhost" (address "::1") at port "5432".
