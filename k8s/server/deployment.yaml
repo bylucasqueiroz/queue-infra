@@ -19,3 +19,14 @@ spec:
         imagePullPolicy: Never
         ports:
         - containerPort: 8080
+        env:
+        - name: POSTGRES_HOST
+          value: 'postgres'
+        - name: POSTGRES_PORT
+          value: '5432'
+        - name: POSTGRES_USER
+          value: 'ps_user'
+        - name: POSTGRES_PASSWORD
+          value: 'SecurePassword'
+        - name: POSTGRES_DB_NAME
+          value: 'queue_server'
