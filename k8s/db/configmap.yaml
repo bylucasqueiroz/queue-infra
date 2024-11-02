@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: postgres-secret
+  name: postgres-init-sql
   namespace: queue-server
   labels:
     app: postgres
@@ -10,17 +10,21 @@ data:
   POSTGRES_USER: 'ps_user'
   POSTGRES_PASSWORD: 'SecurePassword'
   init.sql: |
-    CREATE DATABASE queue_server;
+    CREATE DATABASE IF NOT EXISTS queue_server;
     \c queue_server;
-    
-    CREATE TABLE queues (
+
+    CREATE TABLE IF NOT EXISTS queues (
         name VARCHAR(36) PRIMARY KEY,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
-    CREATE TABLE messages (
+    CREATE TABLE IF NOT EXISTS messages (
         id VARCHAR(36) PRIMARY KEY,
         queue_name VARCHAR(36) NOT NULL REFERENCES queues(name) ON DELETE CASCADE,
+        receipt_handle VARCHAR(36) UNIQUE NOT NULL,
+        visibility_timeout TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         body TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
+
+    INSERT INTO queues (name) VALUES ('queue');
