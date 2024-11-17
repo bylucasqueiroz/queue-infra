@@ -29,7 +29,7 @@ minikube service client
 
 ## Database
 
-kubectl exec -it postgres-665b7554dc-cddgq -- psql -h localhost -U ps_user --password -p 5432 ps_db
+kubectl -n queue-server exec -it postgres-665b7554dc-cddgq -- psql -h localhost -U ps_user --password -p 5432 ps_db
 
 Password:
 psql (14.10 (Debian 14.10-1.pgdg120+1))
